@@ -42,6 +42,20 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setNav(false); });
   }
 
+  /* ---------- Mobil gyorssáv: elrejtjük, ha a kapcsolat-szekció vagy a lábléc látszik ---------- */
+  var quickBar = $('#quick-bar');
+  if (quickBar && 'IntersectionObserver' in window) {
+    var visible = {};
+    var qbObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { visible[en.target.id || 'footer'] = en.isIntersecting; });
+      quickBar.classList.toggle('is-hidden', !!(visible.kapcsolat || visible.footer));
+    }, { threshold: 0.2 });
+    var contactEl = document.getElementById('kapcsolat');
+    var footerEl = $('.site-footer');
+    if (contactEl) qbObs.observe(contactEl);
+    if (footerEl) qbObs.observe(footerEl);
+  }
+
   /* ---------- Aktív menüpont ---------- */
   if ('IntersectionObserver' in window) {
     var links = {};
@@ -77,6 +91,13 @@
      ========================================================================== */
   var SERVICE_BY_ID = {};
   (window.SERVICES || []).forEach(function (s) { SERVICE_BY_ID[s.id] = s; });
+
+  // SMS-gomb: a hívás-gomb számából és az előre kitöltött szövegből
+  function setSms(smsEl, telEl, text) {
+    if (!smsEl || !telEl) return;
+    var tel = (telEl.getAttribute('href') || '').replace('tel:', '');
+    smsEl.setAttribute('href', 'sms:' + tel + '?body=' + encodeURIComponent(text));
+  }
 
   var REGIONS = window.BODY_REGIONS || [];
   var CHIPS = window.BODY_CHIPS || { front: [], back: [] };
@@ -268,6 +289,7 @@
     var wa = $('#rd-wa');
     var base = (wa.getAttribute('href') || '').split('?')[0];
     wa.setAttribute('href', base + '?text=' + encodeURIComponent(text));
+    setSms($('#rd-sms'), $('#rd-book'), text);
 
     $$('.hs.is-active').forEach(function (x) { x.classList.remove('is-active'); });
     $$('.hs[data-region="' + id + '"]').forEach(function (x) { x.classList.add('is-active'); });
@@ -372,6 +394,7 @@
     var text = 'Szia! Időpontot szeretnék egyeztetni, a következő kezelés érdekel: ' + s.name + '.';
     var wa = $('#sd-wa');
     wa.setAttribute('href', (wa.getAttribute('href') || '').split('?')[0] + '?text=' + encodeURIComponent(text));
+    setSms($('#sd-sms'), $('#sd-book'), text);
 
     document.body.classList.add('no-scroll');
     if (typeof sdlg.showModal === 'function') sdlg.showModal();

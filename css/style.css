@@ -836,3 +836,60 @@ h1, h2, h3 {
   .pt-dur { text-align: left; }
 }
 .about-photo img { height: auto; }
+
+/* ==========================================================================
+   Mobil gyorssáv (Hívás / SMS / WhatsApp) – 4. verzió
+   ========================================================================== */
+.quick-bar { display: none; }
+.contact-meta strong { color: #fff; }
+
+@media (max-width: 960px) {
+  .quick-bar {
+    position: fixed;
+    z-index: 45;
+    left: 12px;
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.3fr;
+    gap: 8px;
+    padding: 8px;
+    background: rgba(255, 253, 248, 0.94);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    box-shadow: 0 18px 40px -12px rgba(30, 42, 33, 0.5);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s;
+  }
+  .quick-bar.is-hidden { transform: translateY(150%); opacity: 0; pointer-events: none; }
+  .qb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 52px;
+    border-radius: 16px;
+    color: #fff;
+    font: 600 0.95rem/1 var(--sans);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s;
+  }
+  .qb:active { transform: scale(0.96); }
+  .qb svg { width: 20px; height: 20px; flex: none; }
+  .qb--call { background: var(--forest); }
+  .qb--sms { background: var(--sage-d); }
+  .qb--wa { background: #1d7a3c; }
+  /* a lábléc ne maradjon a sáv alatt */
+  .site-footer { padding-bottom: 40px; }
+}
+
+/* felugró ablakok gombjai: három egyforma gomb egy sorban */
+.rd-cta .btn { flex: 1 1 0; min-width: 0; padding-inline: 14px; }
+@media (max-width: 720px) { .rd-cta .btn { flex: 1 1 0; padding-inline: 8px; min-height: 50px; } }
+@media (max-width: 720px) {
+  .rd-cta { gap: 8px; }
+  .rd-cta .btn { font-size: 0.9rem; padding-inline: 6px; }
+  .rd-cta #rd-wa, .rd-cta #sd-wa { flex-grow: 1.5; }
+}
