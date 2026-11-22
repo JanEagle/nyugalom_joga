@@ -1,4 +1,4 @@
-# Nyugalom Jóga – weboldal
+# HegKezelés & FasciaHarmónia – weboldal
 
 Statikus, magyar nyelvű weboldal jógaoktatónak (HTML + CSS + JS, nincs build lépés, nincs külső függőség).
 
@@ -6,7 +6,7 @@ Statikus, magyar nyelvű weboldal jógaoktatónak (HTML + CSS + JS, nincs build 
 
 | Fájl | Mire való |
 | --- | --- |
-| `index.html` | Főoldal (hero, rólam, szolgáltatások, testtérkép, árak, órarend, GYIK, kapcsolat) |
+| `index.html` | Főoldal (hero, bemutatkozás, kezelések, testtérkép, árlista, GYIK, kapcsolat) |
 | `adatvedelem.html` | Adatvédelmi tájékoztató és impresszum (sablon, ki kell tölteni) |
 | `js/regions.js` | **A testtérkép tartalma**: testrészek, panaszok, jógagyakorlatok, masszázs, figyelmeztetés |
 | `js/services.js` | **A kezelések leírásai** (felugró ablakok): bevezető, javallatok, ellenjavallatok |
@@ -19,11 +19,11 @@ Statikus, magyar nyelvű weboldal jógaoktatónak (HTML + CSS + JS, nincs build 
 
 A kitalált minta-adatokat érdemes lecserélni. Keresd a `TODO` megjegyzéseket, illetve ezeket:
 
-- név / márkanév: `Nyugalom Jóga` (index.html, adatvedelem.html)
+- név (a bemutatkozásban, az impresszumban) és kapcsolati adatok
 - telefon: `+36 30 000 0000`, `tel:+36300000000`, `wa.me/36300000000`
 - e-mail: `info@example.com`
 - cím: `1111 Budapest, Minta utca 1.`
-- árak és időtartamok (az `index.html` Árak szakaszában, jelenleg mintaszámok), lemondási szabály, GYIK
+- árak: az `index.html` Árlista szakaszában (a megadott árlista alapján)
 - a nyitókép (`assets/img/hero.jpg`) és a kapcsolat-szekció háttere (`banner.jpg`) még stock fotó, érdemes saját képre cserélni
 - `adatvedelem.html`: a sárgával jelölt mezők
 
