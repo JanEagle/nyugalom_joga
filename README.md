@@ -9,6 +9,7 @@ Statikus, magyar nyelvű weboldal jógaoktatónak (HTML + CSS + JS, nincs build 
 | `index.html` | Főoldal (hero, rólam, szolgáltatások, testtérkép, árak, órarend, GYIK, kapcsolat) |
 | `adatvedelem.html` | Adatvédelmi tájékoztató és impresszum (sablon, ki kell tölteni) |
 | `js/regions.js` | **A testtérkép tartalma**: testrészek, panaszok, jógagyakorlatok, masszázs, figyelmeztetés |
+| `js/services.js` | **A kezelések leírásai** (felugró ablakok): bevezető, javallatok, ellenjavallatok |
 | `js/main.js` | Menü, animációk, testtérkép működése |
 | `css/style.css` | Színek (`:root` változók), elrendezés |
 | `assets/img/` | Webre optimalizált képek (az eredeti PNG-k az `img/` mappában vannak) |
@@ -22,7 +23,8 @@ A kitalált minta-adatokat érdemes lecserélni. Keresd a `TODO` megjegyzéseket
 - telefon: `+36 30 000 0000`, `tel:+36300000000`, `wa.me/36300000000`
 - e-mail: `info@example.com`
 - cím: `1111 Budapest, Minta utca 1.`
-- bemutatkozás, végzettségek, árak, órarend, GYIK
+- árak és időtartamok (az `index.html` Árak szakaszában, jelenleg mintaszámok), lemondási szabály, GYIK
+- a nyitókép (`assets/img/hero.jpg`) és a kapcsolat-szekció háttere (`banner.jpg`) még stock fotó, érdemes saját képre cserélni
 - `adatvedelem.html`: a sárgával jelölt mezők
 
 ## Helyi előnézet

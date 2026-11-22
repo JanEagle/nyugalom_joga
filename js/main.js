@@ -21,6 +21,9 @@
 
   function onScroll() {
     if (header) header.classList.toggle('is-scrolled', window.scrollY > 12);
+    if (window.scrollY < 200) {
+      $$('.nav a.is-active').forEach(function (x) { x.classList.remove('is-active'); });
+    }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
@@ -72,6 +75,9 @@
   /* ==========================================================================
      TESTTÉRKÉP
      ========================================================================== */
+  var SERVICE_BY_ID = {};
+  (window.SERVICES || []).forEach(function (s) { SERVICE_BY_ID[s.id] = s; });
+
   var REGIONS = window.BODY_REGIONS || [];
   var CHIPS = window.BODY_CHIPS || { front: [], back: [] };
   var byId = {};
@@ -221,6 +227,17 @@
         sp.textContent = desc;
         li.appendChild(sp);
       }
+      // kezelés-hivatkozás (3. elem): megnyitja a kezelés leírását
+      if (type !== 'yoga' && it[2] && SERVICE_BY_ID[it[2]]) {
+        var more = document.createElement('button');
+        more.type = 'button';
+        more.className = 'link-btn';
+        more.textContent = 'A kezelés részletei →';
+        more.addEventListener('click', (function (sid) {
+          return function () { closeDialog(); openService(sid, null); };
+        })(it[2]));
+        li.appendChild(more);
+      }
       ul.appendChild(li);
     });
   }
@@ -273,11 +290,109 @@
       if (e.target === dlg) closeDialog();
     });
     dlg.addEventListener('close', function () {
-      document.body.classList.remove('no-scroll');
       $$('.hs.is-active').forEach(function (x) { x.classList.remove('is-active'); });
+      if (document.querySelector('dialog[open]')) return; // közben másik ablak nyílt meg
+      document.body.classList.remove('no-scroll');
       if (lastTrigger && typeof lastTrigger.focus === 'function') {
         try { lastTrigger.focus({ preventScroll: true }); } catch (err) { /* nincs teendő */ }
       }
+    });
+  }
+
+  /* ==========================================================================
+     KEZELÉSEK – felugró ablak
+     ========================================================================== */
+  var sdlg = $('#service-dialog');
+  var sdTrigger = null;
+
+  function rich(li, item) {
+    if (Array.isArray(item)) {
+      var b = document.createElement('strong');
+      b.textContent = item[0];
+      li.appendChild(b);
+      li.appendChild(document.createTextNode(item[1]));
+    } else {
+      li.textContent = item;
+    }
+  }
+
+  function renderBlock(block) {
+    var wrap = document.createElement('div');
+    wrap.className = 'rd-block';
+    var h = document.createElement('h4');
+    h.textContent = block.title;
+    wrap.appendChild(h);
+    var ul = document.createElement('ul');
+    ul.className = block.kind === 'tags' ? 'tags' : (block.kind === 'check' ? 'rd-checks' : 'rd-list rd-list--plain');
+    block.items.forEach(function (item) {
+      var li = document.createElement('li');
+      rich(li, item);
+      ul.appendChild(li);
+    });
+    wrap.appendChild(ul);
+    return wrap;
+  }
+
+  function openService(id, trigger) {
+    var s = SERVICE_BY_ID[id];
+    if (!s || !sdlg) return;
+    sdTrigger = trigger || null;
+
+    $('#sd-title').textContent = s.name;
+    $('#sd-tagline').textContent = s.tagline || '';
+
+    var intro = $('#sd-intro');
+    intro.textContent = '';
+    s.intro.forEach(function (t) {
+      var p = document.createElement('p');
+      p.textContent = t;
+      intro.appendChild(p);
+    });
+
+    var blocks = $('#sd-blocks');
+    blocks.textContent = '';
+    (s.blocks || []).forEach(function (b) { blocks.appendChild(renderBlock(b)); });
+
+    var note = $('#sd-note');
+    note.hidden = !s.note;
+    note.textContent = s.note || '';
+
+    var avoid = $('#sd-avoid');
+    avoid.textContent = '';
+    (s.avoid || []).forEach(function (t) {
+      var li = document.createElement('li');
+      li.textContent = t;
+      avoid.appendChild(li);
+    });
+    var an = $('#sd-avoid-note');
+    an.hidden = !s.avoidNote;
+    an.textContent = s.avoidNote || '';
+    $('#sd-avoid-wrap').hidden = !(s.avoid && s.avoid.length);
+
+    var text = 'Szia! Időpontot szeretnék egyeztetni, a következő kezelés érdekel: ' + s.name + '.';
+    var wa = $('#sd-wa');
+    wa.setAttribute('href', (wa.getAttribute('href') || '').split('?')[0] + '?text=' + encodeURIComponent(text));
+
+    document.body.classList.add('no-scroll');
+    if (typeof sdlg.showModal === 'function') sdlg.showModal();
+    else sdlg.setAttribute('open', '');
+    $('.rd-inner', sdlg).scrollTop = 0;
+  }
+
+  if (sdlg) {
+    var closeSd = function () { if (sdlg.open) sdlg.close(); };
+    $('#sd-close').addEventListener('click', closeSd);
+    $('#sd-book').addEventListener('click', closeSd);
+    sdlg.addEventListener('click', function (e) { if (e.target === sdlg) closeSd(); });
+    sdlg.addEventListener('close', function () {
+      if (document.querySelector('dialog[open]')) return;
+      document.body.classList.remove('no-scroll');
+      if (sdTrigger && typeof sdTrigger.focus === 'function') {
+        try { sdTrigger.focus({ preventScroll: true }); } catch (err) { /* nincs teendő */ }
+      }
+    });
+    $$('[data-service]').forEach(function (btn) {
+      btn.addEventListener('click', function () { openService(btn.getAttribute('data-service'), btn); });
     });
   }
 })();

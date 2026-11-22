@@ -4,7 +4,8 @@
    SVG-vászonra vonatkoznak.
      c = kör (x, y, r)      e = ellipszis (x, y, rx, ry)
    yoga: [név, szanszkrit név, rövid leírás]
-   breath / therapy: [név, rövid leírás]
+   breath: [név, rövid leírás]
+   therapy: [név, rövid leírás, kezelés-azonosító (services.js)]
    ========================================================================== */
 
 window.BODY_REGIONS = [
@@ -26,8 +27,8 @@ window.BODY_REGIONS = [
       ['Jóga nidra', 'Vezetett mély relaxáció, fekve.']
     ],
     therapy: [
-      ['Indiai fejmasszázs', 'Fejbőr, arc és tarkó lazítása.'],
-      ['Relaxációs masszázs', 'Az egész test átmozgatása, nyugtató érintéssel.']
+      ['Vagus masszázs', 'Nyugtatja az idegrendszert, oldja a fej, az állkapocs és a nyak feszültségét.', 'vagus'],
+      ['Fasciális arckezelés', 'Az arc, az állkapocs és a nyak kötőszöveteinek oldása.', 'arc']
     ],
     warn: 'Hirtelen jelentkező, szokatlanul erős vagy ismétlődő fejfájás esetén először keress fel orvost.'
   },
@@ -50,9 +51,8 @@ window.BODY_REGIONS = [
       ['Testpásztázás', 'Fekvő relaxáció, a nyak és az állkapocs tudatos elengedésével.']
     ],
     therapy: [
-      ['Nyak-váll masszázs', 'A tarkó- és trapézizmok oldása.'],
-      ['Triggerpont-kezelés', 'A makacs, kemény csomók célzott oldása.'],
-      ['Meleg borogatás', 'Gyakorlás előtt vagy után, a nyak megnyugtatására.']
+      ['Mélyszöveti masszázs', 'A tarkó- és trapézizmok, a nyak-váll terület célzott oldása.', 'melyszoveti'],
+      ['Vagus masszázs', 'A nyak–állkapocs terület feszültségének és a stressznek az oldása.', 'vagus']
     ],
     warn: 'A nyakat soha ne forgasd hátra erőből. Karba sugárzó fájdalom, zsibbadás vagy gyengeség esetén fordulj orvoshoz.'
   },
@@ -75,8 +75,8 @@ window.BODY_REGIONS = [
       ['Vállkörzés légzéssel', 'Belégzésre fel, kilégzésre hátra és le.']
     ],
     therapy: [
-      ['Váll- és lapockamasszázs', 'A felső hát és a váll izmainak oldása.'],
-      ['Mélyszöveti masszázs', 'Makacs, régi feszülések kezelésére.']
+      ['Mélyszöveti masszázs', 'A váll és a felső hát makacs, régi feszüléseinek kezelésére.', 'melyszoveti'],
+      ['Vagus masszázs', 'A váll és a nyak stressz okozta feszültségének oldására.', 'vagus']
     ],
     warn: 'A hirtelen kialakult vagy éjszaka is jelentkező vállfájdalmat orvosnak kell megvizsgálnia.'
   },
@@ -96,8 +96,8 @@ window.BODY_REGIONS = [
       ['Óceánlégzés', 'Ujjájí: lassú, hangos légzés a torokban.']
     ],
     therapy: [
-      ['Mellkasnyitó masszázs', 'A mellizmok és a bordák közötti izmok oldása.'],
-      ['Légzésterápia', 'A rekeszizom-légzés megtanulása.']
+      ['Gerinctorna', 'Tartásjavítás, a mellkas és a hát mozgékonyságának növelése.', 'gerinctorna'],
+      ['Funkcionális hegintegráció', 'Mellkasi műtét utáni hegek kezelése.', 'heg']
     ],
     warn: 'Mellkasi fájdalom, szapora szívverés vagy légszomj esetén ne gyakorolj, hanem azonnal kérj orvosi segítséget.'
   },
@@ -117,8 +117,9 @@ window.BODY_REGIONS = [
       ['Jóga nidra', 'Mély relaxáció, ami az emésztést is segíti.']
     ],
     therapy: [
-      ['Gyengéd hasi masszázs', 'Óramutató járásával megegyező irányban.'],
-      ['Melegítő borogatás', 'Görcsök, feszülés enyhítésére.']
+      ['Hasmasszázs (viscerális mobilizáció)', 'Gyengéd, fájdalommentes technika puffadás, székrekedés, reflux esetén.', 'has'],
+      ['Vagus masszázs', 'Az emésztés és az idegrendszer nyugalmának támogatása.', 'vagus'],
+      ['Funkcionális hegintegráció', 'Császármetszés és hasi műtétek utáni hegek.', 'heg']
     ],
     warn: 'Terhesség, friss hasi műtét vagy ismeretlen eredetű hasi fájdalom esetén a csavarásokat kerüld, és egyeztess az orvosoddal.'
   },
@@ -137,8 +138,8 @@ window.BODY_REGIONS = [
       ['Kilégzésre elengedés', 'Nyújtásnál a kilégzésnél engedd el a karok izmait.']
     ],
     therapy: [
-      ['Alkar- és könyökmasszázs', 'Az alkarizmok oldása a feszülés okánál.'],
-      ['Hideg-meleg borogatás', 'Gyulladásos jellegű panaszoknál előzetes egyeztetéssel.']
+      ['Mélyszöveti masszázs', 'Az alkar és a kar izmainak, triggerpontjainak lokális kezelése.', 'melyszoveti'],
+      ['Nyirokmasszázs', 'Nehéz, vizesedő kar esetén.', 'nyirok']
     ],
     warn: 'Tartós zsibbadás, erőtlenség vagy ismétlődő éjszakai fájdalom esetén kérj orvosi vizsgálatot.'
   },
@@ -157,8 +158,8 @@ window.BODY_REGIONS = [
       ['Mudrával kísért légzés', 'Gyin mudra ülve, a kéz és a légzés összehangolásával.']
     ],
     therapy: [
-      ['Kéz- és ujjmasszázs', 'A tenyér és az ujjak lazítása.'],
-      ['Kéztő-mobilizálás', 'Kíméletes mozgástartomány-növelés.']
+      ['Mélyszöveti masszázs', 'Az alkar és a kéz izmainak lokális, kíméletes kezelése.', 'melyszoveti'],
+      ['Nyirokmasszázs', 'Nehéz, duzzadó kéz esetén.', 'nyirok']
     ],
     warn: 'Éjszakai zsibbadás vagy az ujjak erőtlensége esetén kéztőalagút-szindróma is lehet, ilyenkor orvosi vizsgálat szükséges. Fájó csuklóra ne támaszkodj: használj ökölfogást vagy alkartámaszt.'
   },
@@ -177,8 +178,8 @@ window.BODY_REGIONS = [
       ['Lassú, mély légzés', 'Nyújtásban 5–8 légzésig tartva engedi a mély izmokat.']
     ],
     therapy: [
-      ['Csípő- és farizommasszázs', 'A mély csípőizmok oldása.'],
-      ['Fasciális mobilizáció', 'Kötőszövet-oldó technikák.']
+      ['Mélyszöveti masszázs', 'A csípő- és farizmok, a kötőszövet mély oldása.', 'melyszoveti'],
+      ['Gerinctorna', 'A medence és a csípő mozgékonyságának helyreállítása.', 'gerinctorna']
     ],
     warn: 'Csípőprotézis vagy csípőműtét után a mély csípőnyitók előtt egyeztess az orvosoddal.'
   },
@@ -197,8 +198,8 @@ window.BODY_REGIONS = [
       ['Nyugodt hasi légzés', 'Fekve, a térd alatt párnával.']
     ],
     therapy: [
-      ['Combizom-masszázs', 'A térd körüli izmok egyensúlyba hozása.'],
-      ['Meleg borogatás', 'Merevség esetén, mozgás előtt.']
+      ['Mélyszöveti masszázs', 'A térd körüli comb- és vádliizmok egyensúlyba hozása.', 'melyszoveti'],
+      ['Funkcionális hegintegráció', 'Térdműtét vagy sérülés utáni hegek kezelése.', 'heg']
     ],
     warn: 'Fájó térdet ne csavarj, és ne terhelj mélyen behajlítva. Duzzadt, meleg térdnél orvosi vizsgálat szükséges. Kerüld a Padmászanát és a Virászanát.'
   },
@@ -217,9 +218,8 @@ window.BODY_REGIONS = [
       ['Lábra figyelő relaxáció', 'Jóga nidra a lábtól a fejig haladva.']
     ],
     therapy: [
-      ['Talpmasszázs', 'A talp és a lábboltozat lazítása.'],
-      ['Reflexológia', 'A talp reflexpontjainak kezelése.'],
-      ['Váltott hőmérsékletű lábfürdő', 'Keringésserkentő hatású.']
+      ['Nyirokmasszázs', 'Nehéz, vizesedő, duzzadó láb esetén.', 'nyirok'],
+      ['Mélyszöveti masszázs', 'A vádli és a lábszár feszes izmainak oldása.', 'melyszoveti']
     ],
     warn: 'Tartós duzzanat, színváltozás vagy erős fájdalom esetén orvosi vizsgálat szükséges (különösen cukorbetegségnél).'
   },
@@ -240,8 +240,8 @@ window.BODY_REGIONS = [
       ['Hátra irányuló légzés', 'Gyermekpózban a belégzést a hát felé küldve.']
     ],
     therapy: [
-      ['Háti masszázs', 'A gerinc melletti izmok oldása.'],
-      ['Triggerpont-kezelés', 'A lapockák közti csomók célzott oldása.']
+      ['Mélyszöveti masszázs', 'A gerinc melletti izmok és a lapockák közti csomók oldása.', 'melyszoveti'],
+      ['Gerinctorna', 'Tartásjavítás, a hát és a mellkas mozgékonyságának növelése.', 'gerinctorna']
     ],
     warn: 'Mellkasra vagy bordákra sugárzó éles fájdalom, légzésnél erősödő fájdalom esetén kérj orvosi segítséget.'
   },
@@ -262,8 +262,9 @@ window.BODY_REGIONS = [
       ['Progresszív izomrelaxáció', 'A test izmainak sorra elengedése.']
     ],
     therapy: [
-      ['Derék- és ágyékmasszázs', 'A gerinc melletti izmok és a keresztcsont kezelése.'],
-      ['Hőkezelés', 'Meleg borogatás, ami lazítja a görcsös izmokat.']
+      ['Mélyszöveti masszázs', 'A derék és az ágyék izmainak, kötőszöveteinek célzott kezelése.', 'melyszoveti'],
+      ['Gerinctorna', 'Kíméletes, a törzset erősítő és mobilizáló mozgásprogram.', 'gerinctorna'],
+      ['Funkcionális hegintegráció', 'Gerincműtét utáni hegek kezelése.', 'heg']
     ],
     warn: 'Lábba sugárzó fájdalom, zsibbadás, lábgyengeség, vizelési vagy székelési zavar esetén azonnal fordulj orvoshoz.'
   },
@@ -282,8 +283,8 @@ window.BODY_REGIONS = [
       ['Lassú kilégzés a nyújtásban', 'A kilégzéssel engedd el a farizom feszülését.']
     ],
     therapy: [
-      ['Farizom- és piriformismasszázs', 'A mély izmok oldása.'],
-      ['Triggerpont-terápia', 'Az ülőideget nyomó feszülések kezelése.']
+      ['Mélyszöveti masszázs', 'A farizom és a piriformis feszülései, triggerpontjai.', 'melyszoveti'],
+      ['Gerinctorna', 'A medence, a csípő és a derék együttes mobilizálása.', 'gerinctorna']
     ],
     warn: 'Erősödő, a lábba lehúzódó fájdalom vagy zsibbadás esetén orvosi kivizsgálás szükséges.'
   },
@@ -307,8 +308,8 @@ window.BODY_REGIONS = [
       ['Hosszú kilégzés', 'A nyújtásokban a kilégzés oldja az izmok védekezését.']
     ],
     therapy: [
-      ['Sportmasszázs', 'A comb és a vádli átdolgozása.'],
-      ['Önmasszázs habhengerrel', 'Lassan, fájdalomküszöb alatt.']
+      ['Mélyszöveti masszázs', 'Sportolás utáni regeneráció, a comb és a vádli feszes izmainak oldása.', 'melyszoveti'],
+      ['Nyirokmasszázs', 'Nehéz, pangó láb esetén.', 'nyirok']
     ],
     warn: 'Egyoldali duzzanat, melegség és fájdalom a vádliban (trombózis gyanúja) esetén azonnal orvoshoz kell fordulni.'
   }
